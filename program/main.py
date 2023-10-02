@@ -7,16 +7,12 @@ import timeit
 
 
 def bubble_sort(arr):
-    sorted_arr = arr.copy()  # Создаем копию исходного массива
-
-    n = len(sorted_arr)
+    n = len(arr)
     for i in range(n-1):
         for j in range(n-1-i):
-            if sorted_arr[j] > sorted_arr[j+1]:
-                # Swap
-                sorted_arr[j], sorted_arr[j+1] = sorted_arr[j+1], sorted_arr[j]
-
-    return sorted_arr
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+    return arr
 
 
 def find_coeffs(xs, ys):
@@ -41,12 +37,12 @@ def create_graph(x, y, namegraph):
     plt.ylabel("Время работы функции")
 
 
-count = 40
+count = 50
 x1 = [i for i in range(10, count*10+1, 10)]
 x2 = [[i]*30 for i in x1]
 xgraph = list(itertools.chain.from_iterable(x2))
 randmax = 1000000
-timesred = []  
+timesred = []
 timehud = []
 
 for i in xgraph:
@@ -61,7 +57,7 @@ timedel = [timesred[i: i+30] for i in range(0, len(timesred), 30)]
 e = [(1/30*(sum(timedel[i]))) for i in range(len(timedel))]
 
 sigmavalue = [sum([(timedel[k][j] - e[k])**2 for j in range(30)])
-            for k in range(count)]
+              for k in range(count)]
 sigma = [math.sqrt(1/29*sigmavalue[k]) for k in range(count)]
 a, b, c = find_coeffs(x1, e)
 ysred = a * np.array(x1) ** 2 + b * np.array(x1) + c
@@ -75,7 +71,7 @@ create_graph(xgraph, timesred, name)
 
 name = "Средний случай средние значения с отклонениями и параболой"
 plt.figure(name)
-plt.errorbar(x1, e, yerr=sigma, fmt='none', color="red", capsize=3)
+plt.errorbar(x1, e, yerr=sigma, fmt='none', capsize=2)
 plt.plot(x1, ysred, color="green", linewidth=2)
 create_graph(x1, e, name)
 
